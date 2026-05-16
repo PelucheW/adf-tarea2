@@ -30,7 +30,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     query: 'SELECT \\n    TRIM(municipio_id) AS municipio_id,\\n    TRIM(municipio_nombre) AS municipio_nombre,\\n    TRIM(departamento) AS departamento,\\n    TRIM(codigo_departamento) AS codigo_departamento,\\n    TRIM(zona_geografica) AS zona_geografica,\\n    TRIM(es_capital_departamental) AS es_capital_departamental,\\n    TRIM(poblacion_depto_estimada) AS poblacion_depto_estimada\\nFROM bronze.catalogo_departamentos\\nWHERE municipio_id IS NOT NULL AND TRIM(municipio_id) <> \\'\\';',",
+				"     query: 'SELECT \\n    TRIM(municipio_id) AS municipio_id,\\n    TRIM(municipio_nombre) AS municipio_nombre,\\n    TRIM(departamento) AS departamento,\\n    TRIM(codigo_departamento) AS codigo_departamento,\\n    TRIM(zona_geografica) AS zona_geografica,\\n    TRIM(es_capital_departamental) AS es_capital_departamental,\\n    TRIM(poblacion_depto_estimada) AS poblacion_depto_estimada\\nFROM bronze.catalogo_departamentos\\nWHERE municipio_id IS NOT NULL AND TRIM(municipio_id) <> \\'\\';SELECT \\n    TRIM(municipio_id) AS municipio_id,\\n    TRIM(municipio_nombre) AS municipio_nombre,\\n    TRIM(departamento) AS departamento,\\n    TRIM(codigo_departamento) AS codigo_departamento,\\n    TRIM(zona_geografica) AS zona_geografica,\\n    TRIM(es_capital_departamental) AS es_capital_departamental,\\n    TRIM(poblacion_depto_estimada) AS poblacion_depto_estimada\\nFROM bronze.catalogo_departamentos\\nWHERE municipio_id IS NOT NULL AND TRIM(municipio_id) <> \\'\\';',",
 				"     format: 'query') ~> source1"
 			]
 		}
