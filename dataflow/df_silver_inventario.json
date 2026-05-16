@@ -1,0 +1,38 @@
+{
+	"name": "df_silver_inventario",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_catalogo_departamentos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          municipio_id as string,",
+				"          municipio_nombre as string,",
+				"          departamento as string,",
+				"          codigo_departamento as string,",
+				"          zona_geografica as string,",
+				"          es_capital_departamental as string,",
+				"          poblacion_depto_estimada as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT \\n    TRIM(municipio_id) AS municipio_id,\\n    TRIM(municipio_nombre) AS municipio_nombre,\\n    TRIM(departamento) AS departamento,\\n    TRIM(codigo_departamento) AS codigo_departamento,\\n    TRIM(zona_geografica) AS zona_geografica,\\n    TRIM(es_capital_departamental) AS es_capital_departamental,\\n    TRIM(poblacion_depto_estimada) AS poblacion_depto_estimada\\nFROM bronze.catalogo_departamentos\\nWHERE municipio_id IS NOT NULL AND TRIM(municipio_id) <> \\'\\';',",
+				"     format: 'query') ~> source1"
+			]
+		}
+	}
+}
