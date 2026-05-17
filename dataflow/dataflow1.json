@@ -1,0 +1,45 @@
+{
+	"name": "dataflow1",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_catalogo_vacunas",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          vacuna_id as string,",
+				"          vacuna_nombre as string,",
+				"          enfermedad_previene as string,",
+				"          grupo_pai as string,",
+				"          numero_dosis as string,",
+				"          dosis_descripcion as string,",
+				"          edad_aplicacion_descripcion as string,",
+				"          edad_minima_dias as string,",
+				"          edad_maxima_dias as string,",
+				"          intervalo_minimo_dias as string,",
+				"          via_administracion as string,",
+				"          sitio_aplicacion as string,",
+				"          dosis_ml as string,",
+				"          condicion_especial as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT \\r\\n    TRIM(vacuna_id) AS vacuna_id,\\r\\n    TRIM(vacuna_nombre) AS vacuna_nombre,\\r\\n    TRIM(enfermedad_previene) AS enfermedad_previene,\\r\\n    TRIM(grupo_pai) AS grupo_pai,\\r\\n    TRIM(numero_dosis) AS numero_dosis,\\r\\n    TRIM(dosis_descripcion) AS dosis_descripcion,\\r\\n    TRIM(edad_aplicacion_descripcion) AS edad_aplicacion_descripcion,\\r\\n    TRIM(edad_minima_dias) AS edad_minima_dias,\\r\\n    TRIM(edad_maxima_dias) AS edad_maxima_dias,\\r\\n    TRIM(intervalo_minimo_dias) AS intervalo_minimo_dias,\\r\\n    TRIM(via_administracion) AS via_administracion,\\r\\n    TRIM(sitio_aplicacion) AS sitio_aplicacion,\\r\\n    TRIM(dosis_ml) AS dosis_ml,\\r\\n    TRIM(condicion_especial) AS condicion_especial\\r\\nFROM bronze.catalogo_vacunas_pai\\r\\nWHERE vacuna_id IS NOT NULL AND TRIM(vacuna_id) <> \\'\\'',",
+				"     format: 'query') ~> source1"
+			]
+		}
+	}
+}

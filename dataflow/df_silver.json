@@ -1,0 +1,66 @@
+{
+	"name": "df_silver",
+	"properties": {
+		"folder": {
+			"name": "silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "bronze_catalogo_departamentos",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          municipio_id as string,",
+				"          municipio_nombre as string,",
+				"          departamento as string,",
+				"          codigo_departamento as string,",
+				"          zona_geografica as string,",
+				"          es_capital_departamental as string,",
+				"          poblacion_depto_estimada as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT \\n    TRIM(municipio_id) AS municipio_id,\\n    TRIM(municipio_nombre) AS municipio_nombre,\\n    TRIM(departamento) AS departamento,\\n    TRIM(codigo_departamento) AS codigo_departamento,\\n    TRIM(zona_geografica) AS zona_geografica,\\n    TRIM(es_capital_departamental) AS es_capital_departamental,\\n    TRIM(poblacion_depto_estimada) AS poblacion_depto_estimada\\nFROM bronze.catalogo_departamentos\\nWHERE municipio_id IS NOT NULL AND TRIM(municipio_id) <> \\'\\'',",
+				"     format: 'query') ~> source1",
+				"source1 derive(departamento = case(\r",
+				"  in(['SCZ','Santa Cruz','Sta Cruz','santa cruz','scz'], departamento), 'Santa Cruz',\r",
+				"  in(['LPZ','La Paz','LP','la paz','lpz'], departamento), 'La Paz',\r",
+				"  in(['CBA','CBBA','Cochabamba','cochabamba','cbba'], departamento), 'Cochabamba',\r",
+				"  in(['ORU','Oruro','oruro','oru'], departamento), 'Oruro',\r",
+				"  in(['PTI','Potosi','Potosí','potosi','potosí','pti'], departamento), 'Potosí',\r",
+				"  in(['TJA','Tarija','tarija','tja'], departamento), 'Tarija',\r",
+				"  in(['CHQ','Chuquisaca','chuquisaca','chq','Sucre'], departamento), 'Chuquisaca',\r",
+				"  in(['BEN','Beni','beni','ben'], departamento), 'Beni',\r",
+				"  in(['PND','Pando','pando','pnd'], departamento), 'Pando',\r",
+				"  initCap(trim(departamento))\r",
+				"),",
+				"          zona_geografica = case(\r",
+				"  in(['Altiplano','altiplano','Andina','andina'], zona_geografica), 'Altiplano',\r",
+				"  in(['Valles','valles','Valle','valle'], zona_geografica), 'Valles',\r",
+				"  in(['Llanos','llanos','Oriental','oriental','Amazonia','amazonia'], zona_geografica), 'Llanos',\r",
+				"  initCap(trim(zona_geografica))\r",
+				"),",
+				"          municipio_nombre = initCap(regexReplace(trim(municipio_nombre), '\\\\s+', ' ')),",
+				"          es_capital_departamental = iif(in(['si','true','1','yes','v','verdadero'], lower(trim(toString(es_capital_departamental)))), true(), false())) ~> derivedColumn1",
+				"derivedColumn1 derive(codigo_departamento = iifNull(codigo_departamento, '00', codigo_departamento)) ~> derivedColumn2"
+			]
+		}
+	}
+}
