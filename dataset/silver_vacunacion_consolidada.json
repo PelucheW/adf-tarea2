@@ -1,0 +1,124 @@
+{
+	"name": "silver_vacunacion_consolidada",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "dw_dapartamentos",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "silver"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_transaccion_origen",
+				"type": "varchar"
+			},
+			{
+				"name": "paciente_id",
+				"type": "varchar"
+			},
+			{
+				"name": "documento_identidad",
+				"type": "varchar"
+			},
+			{
+				"name": "nombres",
+				"type": "varchar"
+			},
+			{
+				"name": "primer_apellido",
+				"type": "varchar"
+			},
+			{
+				"name": "segundo_apellido",
+				"type": "varchar"
+			},
+			{
+				"name": "genero",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_nacimiento",
+				"type": "date"
+			},
+			{
+				"name": "municipio_residencia",
+				"type": "varchar"
+			},
+			{
+				"name": "comunidad_indigena",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_vacunacion",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			},
+			{
+				"name": "vacuna_id",
+				"type": "varchar"
+			},
+			{
+				"name": "vacuna_nombre_original",
+				"type": "varchar"
+			},
+			{
+				"name": "numero_dosis",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "establecimiento_id",
+				"type": "varchar"
+			},
+			{
+				"name": "nombre_establecimiento_original",
+				"type": "varchar"
+			},
+			{
+				"name": "departamento_registro",
+				"type": "varchar"
+			},
+			{
+				"name": "numero_lote",
+				"type": "varchar"
+			},
+			{
+				"name": "temperatura_conservacion",
+				"type": "decimal",
+				"precision": 5,
+				"scale": 2
+			},
+			{
+				"name": "edad_dias_aplicacion",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "via_aplicacion",
+				"type": "varchar"
+			},
+			{
+				"name": "aplicacion_oportuna",
+				"type": "bit"
+			},
+			{
+				"name": "origen_datos",
+				"type": "varchar"
+			},
+			{
+				"name": "fecha_carga",
+				"type": "datetime",
+				"precision": 23,
+				"scale": 3
+			}
+		],
+		"typeProperties": {
+			"schema": "silver",
+			"table": "vacunacion_consolidada"
+		}
+	}
+}
