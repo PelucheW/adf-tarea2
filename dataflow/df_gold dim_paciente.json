@@ -1,0 +1,63 @@
+{
+	"name": "df_gold dim_paciente",
+	"properties": {
+		"folder": {
+			"name": "gold"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "silver_vacunacion_consolidada",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          id_transaccion_origen as string,",
+				"          paciente_id as string,",
+				"          documento_identidad as string,",
+				"          nombres as string,",
+				"          primer_apellido as string,",
+				"          segundo_apellido as string,",
+				"          genero as string,",
+				"          fecha_nacimiento as date,",
+				"          municipio_residencia as string,",
+				"          comunidad_indigena as string,",
+				"          fecha_vacunacion as timestamp,",
+				"          vacuna_id as string,",
+				"          vacuna_nombre_original as string,",
+				"          numero_dosis as integer,",
+				"          establecimiento_id as string,",
+				"          nombre_establecimiento_original as string,",
+				"          departamento_registro as string,",
+				"          numero_lote as string,",
+				"          temperatura_conservacion as decimal(5,2),",
+				"          edad_dias_aplicacion as integer,",
+				"          via_aplicacion as string,",
+				"          aplicacion_oportuna as boolean,",
+				"          origen_datos as string,",
+				"          fecha_carga as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     query: 'SELECT DISTINCT \\n    paciente_id AS paciente_id,\\n    ci_paciente AS ci_paciente,\\n    CONCAT(TRIM(nombre_patient), \\' \\', TRIM(apellido_paterno), \\' \\', TRIM(apellido_materno)) AS nombre_completo,\\n    sexo AS sexo,\\n    fecha_nacimiento AS fecha_nacimiento\\nFROM silver.vacunacion_consolidada\\nWHERE paciente_id IS NOT NULL',",
+				"     format: 'query') ~> source1",
+				"source1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
